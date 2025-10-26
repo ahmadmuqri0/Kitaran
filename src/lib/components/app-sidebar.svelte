@@ -9,6 +9,7 @@
   import { p } from "@/router";
   import { navMain, navFooter } from "$lib/nav-items";
   import type { User } from "$lib/types";
+  import Separator from "./ui/separator/separator.svelte";
 
   let {
     ref = $bindable(null),
@@ -35,10 +36,12 @@
       </Sidebar.MenuItem>
     </Sidebar.Menu>
   </Sidebar.Header>
+  <Separator />
   <Sidebar.Content>
     <NavMain items={navMain} />
     <NavFooter items={navFooter} class="mt-auto" />
   </Sidebar.Content>
+  <Separator />
   <Sidebar.Footer>
     <NavUser {user} />
   </Sidebar.Footer>
