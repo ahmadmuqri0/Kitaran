@@ -18,7 +18,6 @@
   let user: User = {
     name: "Test User",
     email: "user@test.com",
-    avatar: "",
   };
 </script>
 
