@@ -1,11 +1,7 @@
 <script lang="ts">
   import AppHeader from "$lib/components/app-header.svelte";
   import type { BreadcrumbItem } from "$lib/types";
-  let breadcrumbs: BreadcrumbItem[] = [
-    {
-      title: "Dashboard",
-    },
-  ];
+  let breadcrumbs: BreadcrumbItem[] = [{ title: "Dashboard" }];
 </script>
 
 <AppHeader {breadcrumbs} />
