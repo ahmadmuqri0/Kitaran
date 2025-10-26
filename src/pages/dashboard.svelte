@@ -1,11 +1,9 @@
 <script lang="ts">
   import AppHeader from "$lib/components/app-header.svelte";
-  import { p } from "@/router";
   import type { BreadcrumbItem } from "$lib/types";
   let breadcrumbs: BreadcrumbItem[] = [
     {
       title: "Dashboard",
-      href: p("/"),
     },
   ];
 </script>
