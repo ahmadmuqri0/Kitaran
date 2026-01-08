@@ -1,4 +1,4 @@
-package com.kitaran.servlets;
+package kitaran.auth;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
