@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Request</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">Eco<span>System</span></div>
+            <div class="nav-links">
+                <a href="dashboard.jsp"> My Dashboard</a>
+                <a href="input.jsp" class="active"> New Request</a>
+                <a href="#" onclick="logout()" class="logout"> Logout</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="box" style="max-width: 600px; margin: 0 auto;">
+                <h2>Create New Request</h2>
+                <p>Fill in details. The driver will weigh the items.</p>
+                <form onsubmit="submitRecycle(event)">
+                    <label>Category</label>
+                    <select id="type">
+                        <option>Plastic</option>
+                        <option>Paper</option>
+                        <option>Metal</option>
+                        <option>Glass</option>
+                    </select>
+
+                    <label>Item Description</label>
+                    <input type="text" id="item" placeholder="e.g. Cardboard boxes" required>
+
+                    <label>Pickup Address</label>
+                    <input type="text" id="address" placeholder="Block A, Apt 2..." required>
+
+                    <button class="btn">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
