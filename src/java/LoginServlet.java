@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         // Basic validation
         if (username == null || username.trim().isEmpty() || 
             password == null || password.trim().isEmpty()) {
-            request.setAttribute("errorMessage", "");
+            request.setAttribute("errorMessage", "Username and password are required");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
