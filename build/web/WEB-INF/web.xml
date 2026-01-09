@@ -3,11 +3,11 @@
     <display-name>KITARAN</display-name>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>kitaran.auth.LoginServlet</servlet-class>
+        <servlet-class>kitaran.controller.auth.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>kitaran.auth.LogoutServlet</servlet-class>
+        <servlet-class>kitaran.controller.auth.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>

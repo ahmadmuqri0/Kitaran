@@ -1,7 +1,8 @@
-package kitaran.auth;
+package kitaran.controller.auth;
 
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,15 +18,18 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
+        
         if (session != null) {
             session.invalidate();
+            
+            request.setAttribute("successMessage", "You have logged out succesfully");
+        
+            // Clear any client-side storage
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setHeader("Pragma", "no-cache");
+            response.setDateHeader("Expires", 0);
+        
+            response.sendRedirect("login.jsp");
         }
-        
-        // Clear any client-side storage
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        
-        response.sendRedirect("login.jsp");
     }
 }

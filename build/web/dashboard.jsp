@@ -1,20 +1,26 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - Kitaran</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="globals.css" rel="stylesheet">
+    <title>Admin - Kitaran</title>
 </head>
-<body onload="loadUserDashboard()">
+<body>
+    <%
+        if (session.getAttribute("username") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+    %>
     <div class="app-container">
         <div class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
             <div class="nav-links">
                 <a href="dashboard.jsp" class="active"> Dashboard</a>
                 <a href="input.jsp"> New Request</a>
-                <a href="#" onclick="logout()" class="logout"> Logout</a>
+                <a href="logout" class="logout"> Logout</a>
             </div>
         </div>
 
