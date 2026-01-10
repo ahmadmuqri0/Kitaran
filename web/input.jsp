@@ -1,11 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Request</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="globals.css" rel="stylesheet">
+    <title>Admin - Kitaran</title>
 </head>
 <body>
     <div class="app-container">
@@ -23,7 +23,7 @@
                 <h2>Create New Request</h2>
                 <p>Welcome, ${sessionScope.username != null ? sessionScope.username : 'User'}</p>
                 <p>Fill in details. The driver will weigh the items.</p>
-                
+
                 <%
                     String message = (String) request.getAttribute("message");
                     String messageType = (String) request.getAttribute("messageType");
@@ -35,7 +35,7 @@
                 <%
                     }
                 %>
-                
+
                 <form action="submitRequest.jsp" method="POST" onsubmit="return validateForm()">
                     <label>Category</label>
                     <select name="type" id="type" required>
@@ -48,13 +48,13 @@
 
                     <label>Item Description</label>
                     <input type="text" name="item" id="item" 
-                           value="<%= request.getParameter("item") != null ? request.getParameter("item") : "" %>" 
-                           placeholder="e.g. Cardboard boxes" required>
+                            value="<%= request.getParameter("item") != null ? request.getParameter("item") : "" %>" 
+                            placeholder="e.g. Cardboard boxes" required>
 
                     <label>Pickup Address</label>
                     <input type="text" name="address" id="address" 
-                           value="<%= request.getParameter("address") != null ? request.getParameter("address") : "" %>" 
-                           placeholder="Block A, Apt 2..." required>
+                            value="<%= request.getParameter("address") != null ? request.getParameter("address") : "" %>" 
+                            placeholder="Block A, Apt 2..." required>
 
                     <!-- Hidden field for user ID if needed -->
                     <input type="hidden" name="userId" value="${sessionScope.userId}">
@@ -70,7 +70,7 @@
             var type = document.getElementById('type').value;
             var item = document.getElementById('item').value;
             var address = document.getElementById('address').value;
-            
+
             if (type === "" || item === "" || address === "") {
                 alert("Please fill in all fields");
                 return false;
