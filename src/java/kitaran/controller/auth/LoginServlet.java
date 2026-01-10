@@ -16,19 +16,18 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
         
-        if(session.getAttribute("username") != null) {
+
             if ("admin".equals(username) && "admin123".equals(password)) {
                 session.setAttribute("username", username);
-                response.sendRedirect("/admin.jsp");
+                response.sendRedirect("admin.jsp");
             }
             else if ("user".equals(username) && "user123".equals(password)) {
                 session.setAttribute("username", username);
-                response.sendRedirect("/dashboard.jsp");
+                response.sendRedirect("dashboard.jsp");
             }
             else {
                 request.setAttribute("errorMessage", "Username or password is incorrect");
-                response.sendRedirect("/login.jsp");
+                response.sendRedirect("login.jsp");
             }
         }
-    }
 }
