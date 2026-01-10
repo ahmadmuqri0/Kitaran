@@ -6,6 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="globals.css" rel="stylesheet">
         <title>Login - Kitaran</title>
+        <style>
+            .login-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 1rem;
+            }
+        </style>
     </head>
     <body>
         <main>
@@ -49,7 +58,7 @@
         <script src="toast.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Display server-side messages as toasts
+                // Tunjuk mesej dari servlet pakai notification
                 <%
                     String errorMessage = (String) request.getAttribute("errorMessage");
                     String successMessage = (String) request.getAttribute("successMessage");
@@ -67,7 +76,7 @@
                     }
                 %>
                 
-                // Form validation with toast notifications
+                // buat form validation pakai notification
                 const form = document.getElementById('loginForm');
                 
                 form.addEventListener('submit', function(event) {

@@ -1,3 +1,4 @@
+<%@page import="kitaran.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,13 +9,11 @@
     <title>Admin Panel - Kitaran</title>
 </head>
 <body>
+    <!--Check user authenticate ke tidak-->
     <%
-        if (session.getAttribute("username") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        if ("user".equals(session.getAttribute("username"))) {
-            response.sendRedirect("login.jsp");
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            response.sendRedirect("login");
             return;
         }
     %>
@@ -22,12 +21,19 @@
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
-            <div class="nav-links">
-                <a href="admin.jsp" class="active">Admin Panel</a>
-                <div class="spacer"></div>
-                <a href="logout" class="logout">Logout</a>
-            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="admin.jsp" class="active">Admin Panel</a></li>
+                    <li class="spacer"></li>
+                    <li>
+                        <form action="logout" method="post">
+                            <button type="submit" class="logout">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
         </aside>
+        
 
         <main class="container">
             <section>
