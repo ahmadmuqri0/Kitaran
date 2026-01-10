@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="globals.css" rel="stylesheet">
-    <title>Admin - Kitaran</title>
+    <title>Dashboard - Kitaran</title>
 </head>
 <body>
     <%
@@ -14,18 +14,20 @@
             return;
         }
     %>
+    
     <div class="app-container">
-        <div class="sidebar">
+        <aside class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
             <div class="nav-links">
-                <a href="dashboard.jsp" class="active"> Dashboard</a>
-                <a href="input.jsp"> New Request</a>
-                <a href="logout" class="logout"> Logout</a>
+                <a href="dashboard.jsp" class="active">Dashboard</a>
+                <a href="input.jsp">New Request</a>
+                <div class="spacer"></div>
+                <a href="logout" class="logout">Logout</a>
             </div>
-        </div>
+        </aside>
 
-        <div class="main-content">
-            <h2 style="margin-bottom:20px;">Welcome, <span id="username-display">${sessionScope.username != null ? sessionScope.username : 'User'}</span></h2>
+        <main class="main-content">
+            <h2>Welcome, <span id="username-display">${sessionScope.username != null ? sessionScope.username : 'User'}</span></h2>
 
             <div class="stats-row">
                 <div class="stat-card">
@@ -38,7 +40,7 @@
                     <span class="stat-label">Outstanding Penalty</span>
                     
                     <c:if test="${outstandingPenalty > 0}">
-                        <div id="pay-section" style="width:100%; margin-top:10px;">
+                        <div style="width:100%; margin-top:10px;">
                             <button onclick="payBill()" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
                         </div>
                     </c:if>
@@ -58,7 +60,6 @@
                         </tr>
                     </thead>
                     <tbody id="user-table">
-                        <!-- You can use JSTL to loop through recycling history -->
                         <%-- 
                         <c:forEach var="record" items="${recyclingHistory}">
                             <tr>
@@ -70,11 +71,15 @@
                             </tr>
                         </c:forEach>
                         --%>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No recycling history yet</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </main>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@
     </head>
     <body>
         <main>
-            <section class="container">
+            <section class="container login-container">
                 <div class="card text-center">
                     <h1 class="logo">Ki<span>taran</span></h1>
                     <p class="subtitle">Login to 3R Management System</p>

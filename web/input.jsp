@@ -6,15 +6,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="globals.css" rel="stylesheet">
     <title>Admin - Kitaran</title>
+    
+    <style>
+        /* Simple Input Page Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-accent);
+        }
+        
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+     
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 40px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--neutral-700);
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: var(--neutral-100);
+        }
+        
+        .nav-links a.active {
+            background: var(--bg-accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .nav-links .logout {
+            color: var(--danger);
+            margin-top: auto;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Form Box */
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .box h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .box p {
+            color: var(--neutral-600);
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .alert-success {
+            background: hsl(145, 55%, 95%);
+            color: hsl(145, 55%, 35%);
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert-error {
+            background: hsl(5, 75%, 95%);
+            color: hsl(5, 75%, 45%);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .alert-info {
+            background: hsl(210, 80%, 95%);
+            color: hsl(210, 80%, 40%);
+            border-left: 4px solid hsl(210, 80%, 55%);
+        }
+        
+        /* Form Elements */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--neutral-700);
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--neutral-300);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            background: white;
+        }
+        
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(107, 35, 51, 0.1);
+        }
+        
+        /* Button */
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: hsl(107, 35%, 45%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .nav-links a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .box {
+                padding: 20px;
+            }
+        }
+    </style>
+    
+    
 </head>
 <body>
     <div class="app-container">
         <div class="sidebar">
-            <div class="logo">Eco<span>System</span></div>
+            <div class="logo">Ki<span>TARAN</span></div>
             <div class="nav-links">
-                <a href="dashboard.jsp"> My Dashboard</a>
+                <a href="dashboard.jsp"> Dashboard</a>
                 <a href="input.jsp" class="active"> New Request</a>
-                <a href="#" onclick="logout()" class="logout"> Logout</a>
+                <a href="logout" onclick="logout()" class="logout"> Logout</a>
             </div>
         </div>
 
