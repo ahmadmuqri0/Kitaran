@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="globals.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/globals.css" rel="stylesheet">
     <title>Admin Panel - Kitaran</title>
 </head>
 <body>
@@ -23,7 +23,7 @@
             <div class="logo">Ki<span>TARAN</span></div>
             <nav class="nav-links">
                 <ul>
-                    <li><a href="admin.jsp" class="active">Admin Panel</a></li>
+                    <li><a href="dashboard" class="active">Admin Panel</a></li>
                     <li class="spacer"></li>
                     <li>
                         <form action="logout" method="post">

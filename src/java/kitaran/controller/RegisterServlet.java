@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import kitaran.bean.User;
 import kitaran.dao.AuthDao;
 
-public class LoginServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -20,26 +20,34 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("dashboard");
             return;
         }
-        
-        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
+        String noPhone = request.getParameter("no_phone").trim();
         
-        User user = AuthDao.authenticate(username, password);
+        String registered = AuthDao.register(username, password, noPhone);
         
-        if (user != null) {
+        if (registered.equals("USER_EXISTS")) {
+            request.setAttribute("errorMessage", "This username already exists.");
+            request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+        } 
+        
+        else if (registered.equals("SUCCESS")) {
+            User user = AuthDao.authenticate(username, password);
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             response.sendRedirect("dashboard");
-        } else {
-            request.setAttribute("errorMessage", "Username or password is incorrect");
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        } 
+        
+        else {
+            request.setAttribute("errorMessage", "Registration failed. Please try again later.");
+            request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
         }
     }
 }
