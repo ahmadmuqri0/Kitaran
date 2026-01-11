@@ -85,8 +85,22 @@ body {
 .sidebar .nav-links {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+}
+
+.sidebar .nav-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     gap: 8px;
     flex-grow: 1;
+}
+
+.sidebar .nav-links li {
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar .nav-links a {
@@ -98,6 +112,7 @@ body {
     font-weight: 500;
     font-size: 15px;
     border-left: 3px solid transparent;
+    display: block;
 }
 
 .sidebar .nav-links a:hover {
@@ -119,33 +134,54 @@ body {
     background: hsl(170, 70%, 40%);
 }
 
+.sidebar .nav-links a:focus {
+    outline: 2px solid hsl(170, 70%, 60%);
+    outline-offset: 2px;
+}
+
+/* Logout form styling */
+.sidebar .nav-links form {
+    margin: 0;
+    padding: 0;
+}
+
 .sidebar .nav-links .logout {
     color: hsl(5, 75%, 70%);
     background: transparent;
-    margin-top: auto;
     border: 1px solid hsl(5, 30%, 40%);
+    border-left: 3px solid hsl(5, 30%, 40%);
     font-weight: 600;
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: inherit;
+    display: block;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
 .sidebar .nav-links .logout:hover {
     background: hsl(5, 40%, 25%);
     border-color: hsl(5, 75%, 60%);
+    border-left: 3px solid hsl(5, 75%, 60%);
     color: hsl(5, 75%, 85%);
     transform: translateX(5px);
 }
 
-.sidebar .spacer {
+.sidebar .nav-links .logout:focus {
+    outline: 2px solid hsl(170, 70%, 60%);
+    outline-offset: 2px;
+}
+
+.sidebar .nav-links .spacer {
     flex-grow: 1;
 }
 
-.sidebar .nav-links a:not(:last-child) {
+.sidebar .nav-links li:is(.spacer):not(:last-child) {
     border-bottom: 1px solid hsl(170, 30%, 22%);
     padding-bottom: 12px;
-}
-
-.sidebar .nav-links a:focus {
-    outline: 2px solid hsl(170, 70%, 60%);
-    outline-offset: 2px;
 }
 
 /* ===================================
@@ -455,17 +491,7 @@ tbody tr:hover {
 /* ===================================
    FORMS - LOGIN/REGISTER CARDS
    =================================== */
-/* Login page specific container */
 body > main > section.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1rem;
-}
-
-/* Also support dedicated login-container class */
-.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
