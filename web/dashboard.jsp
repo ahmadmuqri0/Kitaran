@@ -23,8 +23,8 @@
             <div class="logo">Ki<span>TARAN</span></div>
             <nav class="nav-links">
                 <ul>
-                    <li><a href="dashboard" class="active">Dashboard</a></li>
-                    <li><a href="input.jsp">New Request</a></li>
+                    <li><a href="dashboard.jsp" class="active">Dashboard</a></li>
+                    <li><a href="request.jsp">New Request</a></li>
                     <li class="spacer"></li>
                     <li>
                         <form action="logout" method="post">

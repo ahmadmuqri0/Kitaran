@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
             User user = AuthDao.authenticate(username, password);
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("dashboard");
+            response.sendRedirect("login.jsp");
         } 
         
         else {

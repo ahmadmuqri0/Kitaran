@@ -209,8 +209,8 @@
             <div class="logo">Ki<span>TARAN</span></div>
             <nav class="nav-links">
                 <ul>
-                    <li><a href="dashboard">Dashboard</a></li>
-                    <li><a href="input.jsp" class="active">New Request</a></li>
+                    <li><a href="dashboard.jsp">Dashboard</a></li>
+                    <li><a href="request.jsp" class="active">New Request</a></li>
                     <li class="spacer"></li>
                     <li>
                         <form action="logout" method="post">

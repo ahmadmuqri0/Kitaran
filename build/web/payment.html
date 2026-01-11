@@ -37,9 +37,9 @@
             transition: 0.2s;
         }
         .bank-option:hover, .bank-option.selected {
-            border-color: var(--sea-green);
-            background: var(--tea-green);
-            color:  var(--dark-teal);
+            border-color: var(--accent);
+            background: var(--bg-accent);
+            color: var(--primary);
         }
         .amount-box {
             background: #fef3c7;
@@ -53,16 +53,13 @@
     </style>
 </head>
 <body onload="loadPaymentPage()">
-
     <div class="fpx-container">
         <div class="fpx-header">
-            <h2 style="color:var(--dark-teal)">FPX Secure Gateway</h2>
+            <h2 style="color:var(--primary)">FPX Secure Gateway</h2>
             <p style="color:#888; font-size:0.9rem;">Kitaran System Payment</p>
         </div>
-
         <div style="text-align:left; margin-bottom:10px; font-weight:600; color:#555;">Total Amount Payable:</div>
         <div class="amount-box" id="pay-display">RM 0.00</div>
-
         <div style="text-align:left; margin-bottom:10px; font-weight:600; color:#555;">Select Bank:</div>
         <div class="bank-logo-grid">
             <div class="bank-option" onclick="selectBank(this)">Maybank2u</div>
@@ -72,12 +69,9 @@
             <div class="bank-option" onclick="selectBank(this)">AmBank</div>
             <div class="bank-option" onclick="selectBank(this)">Bank Islam</div>
         </div>
-
-        <button onclick="processPayment()" class="btn" style="margin-bottom:10px;">Proceed to Pay</button>
-        <button onclick="cancelPayment()" class="btn" style="background:#e5e7eb; color:#333;">Cancel</button>
+        <button class="btn w-full mb-2">Proceed to Pay</button>
+        <a href="dashboard.jsp" class="btn btn-secondary w-full" style="text-decoration: none;">Cancel</a>
     </div>
-
-    <script src="script.js"></script>
     <script>
     
         function selectBank(element) {
