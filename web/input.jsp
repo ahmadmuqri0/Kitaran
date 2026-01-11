@@ -205,14 +205,21 @@
 </head>
 <body>
     <div class="app-container">
-        <div class="sidebar">
+        <aside class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
-            <div class="nav-links">
-                <a href="dashboard.jsp"> Dashboard</a>
-                <a href="input.jsp" class="active"> New Request</a>
-                <a href="logout" onclick="logout()" class="logout"> Logout</a>
-            </div>
-        </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="dashboard">Dashboard</a></li>
+                    <li><a href="input.jsp" class="active">New Request</a></li>
+                    <li class="spacer"></li>
+                    <li>
+                        <form action="logout" method="post">
+                            <button type="submit" class="logout">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
         <div class="main-content">
             <div class="box" style="max-width: 600px; margin: 0 auto;">

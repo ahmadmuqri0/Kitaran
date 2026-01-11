@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="globals.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/globals.css" rel="stylesheet">
     <title>Dashboard - Kitaran</title>
 </head>
 <body>
@@ -36,7 +36,7 @@
         </aside>
 
         <main class="main-content">
-            <h2>Welcome, <span id="username-display">${sessionScope.username != null ? sessionScope.username : 'User'}</span></h2>
+            <h2>Welcome, <span id="username-display">${user.getUsername()}</span></h2>
 
             <div class="stats-row">
                 <div class="stat-card">

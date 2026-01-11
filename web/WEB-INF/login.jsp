@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="globals.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/globals.css" rel="stylesheet">
         <title>Login - Kitaran</title>
         <style>
             .login-container {
@@ -20,7 +20,7 @@
         <main>
             <section class="container login-container">
                 <div class="card text-center">
-                    <h1 class="logo">Ki<span>taran</span></h1>
+                    <div class="logo">Ki<span>TARAN</span></div>
                     <p class="subtitle">Login to 3R Management System</p>
                     
                     <%-- Login Form --%>
