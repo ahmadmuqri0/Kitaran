@@ -14,7 +14,7 @@
                     <h1 class="logo">Ki<span>TARAN</span></h1>
                     <p class="subtitle">Register to 3R Management System</p>
                     
-                    <form action="register" method="post">
+                    <form action="register" method="post" id="registerForm">
                         <div class="form-group">
                             <div class="input-wrapper">
                                 <label for="username">Username</label>
@@ -59,10 +59,52 @@
                     
                     <p class="text-center mt-3 text-sm text-muted">
                         Already have an account? 
-                        <a href="login.jsp" class="text-accent font-semibold" style="text-decoration: none;">Login here</a>
+                        <a href="login" class="text-accent font-semibold" style="text-decoration: none;">Login here</a>
                     </p>
                 </div>
             </section>
         </main>
     </body>
+    <script src="toast.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tunjuk mesej dari servlet pakai notification
+            <%
+                String errorMessage = (String) request.getAttribute("errorMessage");
+                String successMessage = (String) request.getAttribute("successMessage");
+                    
+                if (errorMessage != null) {
+            %>
+                showError('<%= errorMessage.replace("'", "\\'") %>');
+            <%
+                }
+                    
+                if (successMessage != null) {
+            %>
+                showSuccess('<%= successMessage.replace("'", "\\'") %>');
+            <%
+                }
+            %>
+                
+            // buat form validation pakai notification
+            const form = document.getElementById('registerForm');
+                
+            form.addEventListener('submit', function(event) {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                    
+                if (username.length < 3) {
+                    showError('Username must be at least 3 characters long');
+                    event.preventDefault();
+                    return;
+                }
+                    
+                if (password.length < 6) {
+                    showError('Password must be at least 6 characters long');
+                    event.preventDefault();
+                    return;
+                }
+            });
+        });
+    </script>
 </html>

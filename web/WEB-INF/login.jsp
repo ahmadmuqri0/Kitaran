@@ -52,7 +52,7 @@
                         <button type="submit" class="btn w-full mt-1">Login</button>
                          <p class="text-center mt-3 text-sm text-muted">
                         Don't have account yet?
-                        <a href="register.jsp" class="text-accent font-semibold" style="text-decoration: none;">Sign Up here</a>
+                        <a href="register" class="text-accent font-semibold" style="text-decoration: none;">Sign Up here</a>
                     </p>
                     </form>
                 </div>
