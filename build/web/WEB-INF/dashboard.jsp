@@ -1,5 +1,6 @@
 <%@page import="kitaran.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,13 +10,18 @@
     <title>Dashboard - Kitaran</title>
 </head>
 <body>
-    <!--Check user authenticate ke tidak-->
     <%
         User user = (User) session.getAttribute("user");
         if (user == null) {
             response.sendRedirect("login");
             return;
         }
+        
+        // Get messages
+        String error = (String) session.getAttribute("error");
+        String success = (String) session.getAttribute("success");
+        session.removeAttribute("error");
+        session.removeAttribute("success");
     %>
     
     <div class="app-container">
@@ -34,10 +40,21 @@
                 </ul>
             </nav>
         </aside>
-
         <main class="main-content">
             <h2>Welcome, <span id="username-display">${user.getUsername()}</span></h2>
-
+            
+            <% if (error != null) { %>
+                <div style="background:#fee2e2; color:#dc2626; padding:12px; border-radius:5px; margin-bottom:20px;">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <% if (success != null) { %>
+                <div style="background:#d1fae5; color:#065f46; padding:12px; border-radius:5px; margin-bottom:20px;">
+                    <%= success %>
+                </div>
+            <% } %>
+            
             <div class="stats-row">
                 <div class="stat-card">
                     <span class="stat-num" id="total-weight">${totalWeight != null ? totalWeight : '0'} kg</span>
@@ -48,14 +65,12 @@
                     <span class="stat-num" id="bill-amount">RM ${outstandingPenalty != null ? outstandingPenalty : '0.00'}</span>
                     <span class="stat-label">Outstanding Penalty</span>
                     
-                    <c:if test="${outstandingPenalty > 0}">
-                        <div style="width:100%; margin-top:10px;">
-                            <button onclick="payBill()" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
-                        </div>
-                    </c:if>
+                    <div style="width:100%; margin-top:10px;">
+                        <button onclick="payBill()" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
+                    </div>
                 </div>
             </div>
-
+            
             <div class="box">
                 <h3>My Recycling History</h3>
                 <table>
@@ -69,24 +84,39 @@
                         </tr>
                     </thead>
                     <tbody id="user-table">
-                        <%-- 
-                        <c:forEach var="record" items="${recyclingHistory}">
-                            <tr>
-                                <td>${record.type}</td>
-                                <td>${record.item}</td>
-                                <td>${record.weight} kg</td>
-                                <td>RM ${record.penalty}</td>
-                                <td>${record.status}</td>
-                            </tr>
-                        </c:forEach>
-                        --%>
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">No recycling history yet</td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty recyclingHistory}">
+                                <c:forEach var="record" items="${recyclingHistory}">
+                                    <tr>
+                                        <td>${record.type}</td>
+                                        <td>${record.item}</td>
+                                        <td>${record.weight} kg</td>
+                                        <td>RM ${record.penalty}</td>
+                                        <td>${record.status}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No recycling history yet</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>
         </main>
     </div>
+    
+    <script>
+        function payBill() {
+            const amount = document.getElementById('bill-amount').textContent.replace('RM ', '').trim();
+            if (amount && parseFloat(amount) > 0) {
+                window.location.href = 'payment.jsp?amount=' + amount;
+            } else {
+                alert('No outstanding penalty to pay.');
+            }
+        }
+    </script>
 </body>
 </html>
