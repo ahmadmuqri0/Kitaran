@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< Updated upstream
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/web/payment.html</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/src/java/kitaran/dao/AuthDao.java</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/web/WEB-INF/dashboard.jsp</file>
@@ -14,6 +15,11 @@
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/src/java/kitaran/dao/PaymentDAO.java</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/web/request.jsp</file>
             <file>file:/C:/Users/Admin/Documents/NetBeansProjects/KITARAN/src/java/kitaran/controller/PaymentServlet.java</file>
+=======
+            <file>file:/C:/Users/muqri/OneDrive/Documents/NetBeansProjects/KITARAN/src/java/kitaran/dao/RecycleDao.java</file>
+            <file>file:/C:/Users/muqri/OneDrive/Documents/NetBeansProjects/KITARAN/src/java/kitaran/bean/User.java</file>
+            <file>file:/C:/Users/muqri/OneDrive/Documents/NetBeansProjects/KITARAN/src/java/kitaran/controller/DashboardServlet.java</file>
+>>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>
