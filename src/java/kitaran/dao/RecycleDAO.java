@@ -1,5 +1,5 @@
 package kitaran.dao;
 
-public class RecycleDao {
+public class RecycleDAO {
     
 }

@@ -25,10 +25,10 @@ public class DashboardServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         if (user.getIsAdmin()) {
-            request.getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
             return;
         }
         
-        request.getRequestDispatcher("/WEB-INF/dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response);
     }
 }

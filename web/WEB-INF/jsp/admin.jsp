@@ -64,10 +64,10 @@
                     <h3>Manage Requests</h3>
 
                     <div class="mb-3">
-                        <a href="admin.jsp?filter=all" class="filter-btn ${param.filter == 'all' || param.filter == null ? 'active' : ''}">All</a>
-                        <a href="admin.jsp?filter=pending" class="filter-btn ${param.filter == 'pending' ? 'active' : ''}">Pending</a>
-                        <a href="admin.jsp?filter=verified" class="filter-btn ${param.filter == 'verified' ? 'active' : ''}">Verified</a>
-                        <a href="admin.jsp?filter=penalty" class="filter-btn ${param.filter == 'penalty' ? 'active' : ''}">Penalty Issues</a>
+                        <a href="dashboard?filter=all" class="filter-btn ${param.filter == 'all' || param.filter == null ? 'active' : ''}">All</a>
+                        <a href="dashboard?filter=pending" class="filter-btn ${param.filter == 'pending' ? 'active' : ''}">Pending</a>
+                        <a href="dashboard?filter=verified" class="filter-btn ${param.filter == 'verified' ? 'active' : ''}">Verified</a>
+                        <a href="dashboard?filter=penalty" class="filter-btn ${param.filter == 'penalty' ? 'active' : ''}">Penalty Issues</a>
                     </div>
 
                     <%

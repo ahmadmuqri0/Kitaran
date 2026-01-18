@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import kitaran.bean.User;
-import kitaran.dao.AuthDao;
+import kitaran.dao.AuthDAO;
 
 public class LoginServlet extends HttpServlet {
     @Override
@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         
-        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
     }
     
     @Override
@@ -31,7 +31,9 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
         
-        User user = AuthDao.authenticate(username, password);
+        AuthDAO auth = new AuthDAO();
+        
+        User user = auth.authenticate(username, password);
         
         if (user != null) {
             HttpSession session = request.getSession();
@@ -39,7 +41,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("dashboard");
         } else {
             request.setAttribute("errorMessage", "Username or password is incorrect");
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
         }
     }
 }

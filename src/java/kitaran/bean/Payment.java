@@ -15,16 +15,6 @@ public class Payment {
     // Constructors
     public Payment() {
         this.transactionRef = generateTransactionRef();
-        this.paymentDate = new Timestamp(System.currentTimeMillis());
-    }
-    
-    public Payment(int userId, double amount, String bankName, String paymentStatus) {
-        this.userId = userId;
-        this.amount = amount;
-        this.bankName = bankName;
-        this.paymentStatus = paymentStatus;
-        this.transactionRef = generateTransactionRef();
-        this.paymentDate = new Timestamp(System.currentTimeMillis());
     }
     
     // Generate unique transaction reference

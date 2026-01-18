@@ -7,35 +7,35 @@ import java.sql.SQLException;
 import kitaran.bean.User;
 import kitaran.utils.DBConnection;
 
-public class AuthDao {
+public class AuthDAO {
     
-    public static String register(String username, String password, String noPhone) {
+    public String register(String username, String password, String noPhone) {
         Connection conn = null;
-        PreparedStatement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet result = null;
         try {
             conn = DBConnection.connect();
             
             String checkQuery = "SELECT COUNT(*) FROM users WHERE username = ?";
-            stmt = conn.prepareStatement(checkQuery);
-            stmt.setString(1, username);
-            result = stmt.executeQuery();
+            pstmt = conn.prepareStatement(checkQuery);
+            pstmt.setString(1, username);
+            result = pstmt.executeQuery();
 
             if (result.next() && result.getInt(1) > 0) {
                 return "USER_EXISTS";
             }
             
             result.close();
-            stmt.close();
+            pstmt.close();
             
             String insertQuery = "INSERT INTO users (username, password, no_phone, is_admin) VALUES (?, ?, ?, ?)";
-            stmt = conn.prepareStatement(insertQuery);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, noPhone);
-            stmt.setBoolean(4, false);
+            pstmt = conn.prepareStatement(insertQuery);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.setString(3, noPhone);
+            pstmt.setBoolean(4, false);
             
-            int rowsAffected = stmt.executeUpdate();
+            int rowsAffected = pstmt.executeUpdate();
             
             if (rowsAffected > 0) {
                 return "SUCCESS";
@@ -47,7 +47,7 @@ public class AuthDao {
         } finally {
             try {
                 if(result != null) result.close();
-                if(stmt != null) stmt.close();
+                if(pstmt != null) pstmt.close();
                 if(conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -56,9 +56,9 @@ public class AuthDao {
         return "INSERT_FAILED";
     }
     
-    public static User authenticate(String username, String password) {
+    public User authenticate(String username, String password) {
         Connection conn = null;
-        PreparedStatement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet result = null;
         User user = null;
         
@@ -66,11 +66,11 @@ public class AuthDao {
             conn = DBConnection.connect();
 
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
 
-            result = stmt.executeQuery();
+            result = pstmt.executeQuery();
 
             if(result.next()) {
                 user = new User();
@@ -86,7 +86,7 @@ public class AuthDao {
         } finally {
             try {
                 if(result != null) result.close();
-                if(stmt != null) stmt.close();
+                if(pstmt != null) pstmt.close();
                 if(conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
