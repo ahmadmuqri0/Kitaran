@@ -1,7 +1,9 @@
+
 package kitaran.controller;
 
 import kitaran.dao.PaymentDAO;
 import kitaran.bean.Payment;
+import kitaran.bean.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +19,24 @@ public class PaymentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession(false);
+        
+        // Check if user is logged in
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login");
+            return;
+        }
+        
+        
+        // Forward to payment page
+        request.getRequestDispatcher("/WEB-INF/jsp/payment.jsp").forward(request, response);
     }
     
     @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+ 
     }
     
     private void viewPaymentHistory(HttpServletRequest request, HttpServletResponse response)

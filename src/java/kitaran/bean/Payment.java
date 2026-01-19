@@ -4,31 +4,23 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class Payment {
-    private int paymentId;
+    private int id;
     private int userId;
+    private int recycleId;
     private double amount;
     private String bankName;
-    private String paymentStatus;
-    private Timestamp paymentDate;
-    private String transactionRef;
+    private String status;
+    private Timestamp date;
+    private String ref;
     
-    // Constructors
-    public Payment() {
-        this.transactionRef = generateTransactionRef();
-    }
-    
-    // Generate unique transaction reference
-    private String generateTransactionRef() {
-        return "TXN" + System.currentTimeMillis() + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-    }
-    
+   
     // Getters and Setters
-    public int getPaymentId() {
-        return paymentId;
+    public int getId() {
+        return id;
     }
     
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
+    public void setId(int id) {
+        this.id = id;
     }
     
     public int getUserId() {
@@ -37,6 +29,14 @@ public class Payment {
     
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    
+    public int getRecyleId() {
+        return recycleId;
+    }
+    
+    public void setRecycleId(int recycleId) {
+        this.recycleId = recycleId;
     }
     
     public double getAmount() {
@@ -55,40 +55,44 @@ public class Payment {
         this.bankName = bankName;
     }
     
-    public String getPaymentStatus() {
-        return paymentStatus;
+    public String getStatus() {
+        return status;
     }
     
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
     
-    public Timestamp getPaymentDate() {
-        return paymentDate;
+    public Timestamp getDate() {
+        return date;
     }
     
-    public void setPaymentDate(Timestamp paymentDate) {
-        this.paymentDate = paymentDate;
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
     
-    public String getTransactionRef() {
-        return transactionRef;
+    public String getRef() {
+        return ref;
     }
     
-    public void setTransactionRef(String transactionRef) {
-        this.transactionRef = transactionRef;
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+    
+    public void generateRef() {
+        this.ref = "TXN" + System.currentTimeMillis() + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
     
     @Override
     public String toString() {
         return "Payment{" +
-                "paymentId=" + paymentId +
+                "paymentId=" + id +
                 ", userId=" + userId +
                 ", amount=" + amount +
                 ", bankName='" + bankName + '\'' +
-                ", paymentStatus='" + paymentStatus + '\'' +
-                ", paymentDate=" + paymentDate +
-                ", transactionRef='" + transactionRef + '\'' +
+                ", paymentStatus='" + status + '\'' +
+                ", paymentDate=" + date +
+                ", transactionRef='" + ref + '\'' +
                 '}';
     }
 }

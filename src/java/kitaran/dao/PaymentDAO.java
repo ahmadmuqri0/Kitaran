@@ -4,21 +4,26 @@ import kitaran.bean.Payment;
 import kitaran.utils.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PaymentDAO {
     
     public boolean create(Payment payment) {
-        String query = "insert into payments (user_id, amount) values (?, ?)";
+        String query = "insert into payments (user_id, recycles_id, amount, reference) values (?, ?, ?, ?)";
         
         try {
             Connection conn = DBConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(query);
             
             pstmt.setInt(1, payment.getUserId());
-            pstmt.setDouble(2, payment.getAmount());
+            pstmt.setInt(2, payment.getRecyleId());
+            pstmt.setDouble(3, payment.getAmount());
+            pstmt.setString(4, payment.getRef());
             
             int rowsInserted = pstmt.executeUpdate();
+            
+            pstmt.close();
+            conn.close();
+
             return rowsInserted > 0;
         } catch (SQLException e) {
             System.err.println("Error creating payment record: " + e.getMessage());
@@ -29,19 +34,22 @@ public class PaymentDAO {
     
     // Insert new payment
     public boolean update(Payment payment) {
-        String query = "update payments set bank_name=?, status=?, paydate=?, reference=? where id=?";
+        String query = "update payments set bank_name=?, status=?, paydate=? where id=?";
         
         try {
             Connection conn = DBConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(query);
             
             pstmt.setString(1, payment.getBankName());
-            pstmt.setString(2, payment.getPaymentStatus());
+            pstmt.setString(2, payment.getStatus());
             pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            pstmt.setString(4, payment.getTransactionRef());
-            pstmt.setInt(5, payment.getPaymentId());
+            pstmt.setInt(4, payment.getId());
             
             int rowsAffected = pstmt.executeUpdate();
+            
+            pstmt.close();
+            conn.close();
+            
             return rowsAffected > 0;
             
         } catch (SQLException e) {
@@ -52,7 +60,7 @@ public class PaymentDAO {
     }
     
     // Get payment by ID
-    public Payment getPaymentById(int paymentId) {
+    public Payment getPaymentById(int id) {
         String query = "select * from payments where id=?";
         Payment payment = null;
         
@@ -60,12 +68,43 @@ public class PaymentDAO {
             Connection conn = DBConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(query);
             
-            pstmt.setInt(1, paymentId);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             
             if (rs.next()) {
                 payment = getPayment(rs);
             }
+            
+            rs.close();
+            pstmt.close();
+            conn.close();
+            
+        } catch (SQLException e) {
+            System.err.println("Error getting payment: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return payment;
+    }
+    
+    public Payment getPaymentByRecycleId(int recycleId) {
+        String query = "select * from payments where recycle_id=?";
+        Payment payment = null;
+        
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            
+            pstmt.setInt(1, recycleId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                payment = getPayment(rs);
+            }
+            
+            rs.close();
+            pstmt.close();
+            conn.close();
             
         } catch (SQLException e) {
             System.err.println("Error getting payment: " + e.getMessage());
@@ -76,9 +115,9 @@ public class PaymentDAO {
     }
     
     // Get all payments by user ID
-    public List<Payment> getPaymentsByUserId(int userId) {
+    public ArrayList<Payment> getPaymentsByUserId(int userId) {
         String query = "select * from payments where user_id=? order by paydate DESC";
-        List<Payment> payments = new ArrayList<>();
+        ArrayList<Payment> payments = new ArrayList<>();
         
         try {
             Connection conn = DBConnection.connect();
@@ -91,6 +130,10 @@ public class PaymentDAO {
                 payments.add(getPayment(rs));
             }
             
+            rs.close();
+            pstmt.close();
+            conn.close();
+            
         } catch (SQLException e) {
             System.err.println("Error getting user payments: " + e.getMessage());
             e.printStackTrace();
@@ -100,9 +143,9 @@ public class PaymentDAO {
     }
     
     // Get all payments (for admin)
-    public List<Payment> getAllPayments() {
+    public ArrayList<Payment> getAllPayments() {
         String query = "select * from payments order by paydate DESC";
-        List<Payment> payments = new ArrayList<>();
+        ArrayList<Payment> payments = new ArrayList<>();
         
         try {
             Connection conn = DBConnection.connect();
@@ -112,6 +155,10 @@ public class PaymentDAO {
             while (rs.next()) {
                 payments.add(getPayment(rs));
             }
+            
+            rs.close();
+            pstmt.close();
+            conn.close();
             
         } catch (SQLException e) {
             System.err.println("Error getting all payments: " + e.getMessage());
@@ -124,13 +171,13 @@ public class PaymentDAO {
     // Helper method to extract Payment object from ResultSet
     private Payment getPayment(ResultSet rs) throws SQLException {
         Payment payment = new Payment();
-        payment.setPaymentId(rs.getInt("id"));
+        payment.setId(rs.getInt("id"));
         payment.setUserId(rs.getInt("user_id"));
         payment.setAmount(rs.getDouble("amount"));
         payment.setBankName(rs.getString("bank_name"));
-        payment.setPaymentStatus(rs.getString("status"));
-        payment.setPaymentDate(rs.getTimestamp("paydate"));
-        payment.setTransactionRef(rs.getString("reference"));
+        payment.setStatus(rs.getString("status"));
+        payment.setDate(rs.getTimestamp("paydate"));
+        payment.setRef(rs.getString("reference"));
         return payment;
     }
 }

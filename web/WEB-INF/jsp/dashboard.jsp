@@ -10,20 +10,6 @@
     <title>Dashboard - Kitaran</title>
 </head>
 <body>
-    <%
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            response.sendRedirect("login");
-            return;
-        }
-        
-        // Get messages
-        String error = (String) session.getAttribute("error");
-        String success = (String) session.getAttribute("success");
-        session.removeAttribute("error");
-        session.removeAttribute("success");
-    %>
-    
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
@@ -42,18 +28,6 @@
         </aside>
         <main class="main-content">
             <h2>Welcome, <span id="username-display">${user.getUsername()}</span></h2>
-            
-            <% if (error != null) { %>
-                <div style="background:#fee2e2; color:#dc2626; padding:12px; border-radius:5px; margin-bottom:20px;">
-                    <%= error %>
-                </div>
-            <% } %>
-            
-            <% if (success != null) { %>
-                <div style="background:#d1fae5; color:#065f46; padding:12px; border-radius:5px; margin-bottom:20px;">
-                    <%= success %>
-                </div>
-            <% } %>
             
             <div class="stats-row">
                 <div class="stat-card">

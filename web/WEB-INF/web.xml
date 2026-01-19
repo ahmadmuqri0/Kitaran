@@ -17,6 +17,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>kitaran.controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecycleServlet</servlet-name>
+        <servlet-class>kitaran.controller.RecycleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
@@ -32,6 +36,10 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecycleServlet</servlet-name>
+        <url-pattern>/request</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -9,15 +9,6 @@
     <title>Admin Panel - Kitaran</title>
 </head>
 <body>
-    <!--Check user authenticate ke tidak-->
-    <%
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            response.sendRedirect("login");
-            return;
-        }
-    %>
-
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo">Ki<span>TARAN</span></div>
