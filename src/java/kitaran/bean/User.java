@@ -10,6 +10,7 @@ public class User {
     private String username;
     private String password;
     private String noPhone;
+    private String address;
     private boolean isAdmin;
     
     public int getId() {
@@ -42,6 +43,14 @@ public class User {
     
     public void setNoPhone(String noPhone) {
         this.noPhone = noPhone;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public void setAddress(String address) {
+        this.address = address;
     }
     
     public boolean getIsAdmin() {

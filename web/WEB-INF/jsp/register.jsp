@@ -53,6 +53,18 @@
                                 >
                             </div>
                             
+                            <div class="input-wrapper">
+                                <label for="address">Address</label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    placeholder="Pasir Tumboh"
+                                    required
+                                    title="Please enter your address"
+                                >
+                            </div>
+                            
                             <button type="submit" class="btn w-full mt-2">Register</button>
                         </div>
                     </form>

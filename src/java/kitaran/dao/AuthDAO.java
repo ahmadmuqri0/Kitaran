@@ -9,7 +9,7 @@ import kitaran.utils.DBConnection;
 
 public class AuthDAO {
     
-    public String register(String username, String password, String noPhone) {
+    public String register(String username, String password, String noPhone, String address) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet result = null;
@@ -28,12 +28,13 @@ public class AuthDAO {
             result.close();
             pstmt.close();
             
-            String insertQuery = "INSERT INTO users (username, password, no_phone, is_admin) VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO users (username, password, no_phone, address, is_admin) VALUES (?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, noPhone);
-            pstmt.setBoolean(4, false);
+            pstmt.setString(4, address);
+            pstmt.setBoolean(5, false);
             
             int rowsAffected = pstmt.executeUpdate();
             
@@ -78,6 +79,7 @@ public class AuthDAO {
                 user.setUsername(result.getString("username"));
                 user.setPassword(result.getString("password"));
                 user.setNoPhone(result.getString("no_phone"));
+                user.setAddress(result.getString("address"));
                 user.setIsAdmin(result.getBoolean("is_admin"));
             }
 

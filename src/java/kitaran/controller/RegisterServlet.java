@@ -32,8 +32,9 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
         String noPhone = request.getParameter("no_phone").trim();
+        String address = request.getParameter("address").trim();
         
-        String registered = auth.register(username, password, noPhone);
+        String registered = auth.register(username, password, noPhone, address);
         
         if (registered.equals("USER_EXISTS")) {
             request.setAttribute("errorMessage", "This username already exists.");

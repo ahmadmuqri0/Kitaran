@@ -99,7 +99,7 @@
                                         </td>
                                         <td class="text-center">
                                             <c:choose>
-                                                <c:when test="${!record.penaltyStatus}" >
+                                                <c:when test="${!record.penaltyStatus && record.penalty > 0}" >
                                                     <button onclick="payBill(${record.recycleId})" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
                                                 </c:when>
                                                 <c:otherwise>

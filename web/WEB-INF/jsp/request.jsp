@@ -1,4 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="kitaran.bean.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -224,7 +227,7 @@
         <div class="main-content">
             <div class="box" style="max-width: 600px; margin: 0 auto;">
                 <h2>Create New Request</h2>
-                <p>Welcome, ${sessionScope.username != null ? sessionScope.username : 'User'}</p>
+                <p>Welcome, ${user.username}</p>
                 <p>Fill in details. The driver will weigh the items.</p>
 
                 <%
@@ -239,7 +242,7 @@
                     }
                 %>
 
-                <form action="submitRequest.jsp" method="POST" onsubmit="return validateForm()">
+                <form action="request" method="POST" onsubmit="return validateForm()">
                     <label>Category</label>
                     <select name="type" id="type" required>
                         <option value="">Select Category</option>
@@ -251,16 +254,15 @@
 
                     <label>Item Description</label>
                     <input type="text" name="item" id="item" 
-                            value="<%= request.getParameter("item") != null ? request.getParameter("item") : "" %>" 
-                            placeholder="e.g. Cardboard boxes" required>
+                           placeholder="e.g. Cardboard boxes" required>
 
                     <label>Pickup Address</label>
                     <input type="text" name="address" id="address" 
-                            value="<%= request.getParameter("address") != null ? request.getParameter("address") : "" %>" 
-                            placeholder="Block A, Apt 2..." required>
+                            value="${user.address}" 
+                            placeholder="Block A, Apt 2..." readonly>
 
                     <!-- Hidden field for user ID if needed -->
-                    <input type="hidden" name="userId" value="${sessionScope.userId}">
+                    <input type="hidden" name="userId" value="${user.id}">
 
                     <button type="submit" class="btn">Submit Request</button>
                 </form>
