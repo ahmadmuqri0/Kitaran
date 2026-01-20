@@ -59,8 +59,8 @@ public class DashboardServlet extends HttpServlet {
             
             ArrayList<UserDTO> history = recycleDAO.getUserRecyclingHistory(user.getId());
             
-            request.setAttribute("totalWeight", String.format("%.2f", totalWeight));
-            request.setAttribute("totalPenalty", String.format("%.2f", totalPenalty));
+            request.setAttribute("totalWeight", totalWeight);
+            request.setAttribute("totalPenalty" , totalPenalty);
             request.setAttribute("history", history);
             
             request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response);
