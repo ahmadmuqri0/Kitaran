@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import kitaran.bean.User;
 import kitaran.bean.AdminDTO;
+import kitaran.bean.UserDTO;
 import kitaran.dao.RecycleDAO;
 import java.util.ArrayList;
-import kitaran.bean.Payment;
 import kitaran.dao.PaymentDAO;
 
 public class DashboardServlet extends HttpServlet {
@@ -55,15 +55,17 @@ public class DashboardServlet extends HttpServlet {
             return;
         } else {
             double totalWeight = recycleDAO.getTotalWeightByUserId(user.getId());
-            
             double totalPenalty = paymentDAO.getTotalPaymentByUserId(user.getId());
+            
+            ArrayList<UserDTO> history = recycleDAO.getUserRecyclingHistory(user.getId());
             
             request.setAttribute("totalWeight", String.format("%.2f", totalWeight));
             request.setAttribute("totalPenalty", String.format("%.2f", totalPenalty));
+            request.setAttribute("history", history);
+            
             request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response);
             return;
         }
-        
     }
     
     @Override
@@ -79,35 +81,36 @@ public class DashboardServlet extends HttpServlet {
             if(recycleDAO.updateRecycleStatus(id, "verified")) {
                 request.setAttribute("errorMessage", "Error updating status");
             }
-            request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
+            response.sendRedirect("dashboard");
         }
         
         if (action.equals("weight")) {
-            int id = Integer.parseInt(request.getParameter("recycleId"));
+            int id = Integer.parseInt(request.getParameter("requestId"));
             double weight = Double.parseDouble(request.getParameter("weight"));
             
             if(!recycleDAO.updateRecycleWeight(id, weight)) {
                 request.setAttribute("errorMessage", "Error inserting weight");
             }
-            request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
+            response.sendRedirect("dashboard");
         }
         
         if (action.equals("penalty")) {
             double weight = Double.parseDouble(request.getParameter("wrongWeight"));
-            double penalty = weight / 0.50;
+            double penalty = weight * 0.50;
             
             int userId = Integer.parseInt(request.getParameter("userId"));
             int recycleId = Integer.parseInt(request.getParameter("recycleId"));
             
-            Payment payment = new Payment();
+            kitaran.bean.Payment payment = new kitaran.bean.Payment();
             payment.setUserId(userId);
             payment.setRecycleId(recycleId);
             payment.setAmount(penalty);
             payment.generateRef();
+            
             if(!paymentDAO.create(payment)) {
                 request.setAttribute("errorMessage", "Error inserting penalty");
             }
-            request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
+            response.sendRedirect("dashboard");
         }
     }
 }

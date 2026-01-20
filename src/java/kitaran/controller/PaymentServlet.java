@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import kitaran.bean.Payment;
 
 public class PaymentServlet extends HttpServlet {
     
@@ -25,6 +26,11 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
         
+        int recycleId = Integer.parseInt(request.getParameter("id"));
+        
+        Payment payment = paymentDAO.getPaymentByRecycleId(recycleId);
+        
+        request.setAttribute("payment", payment);
         
         // Forward to payment page
         request.getRequestDispatcher("/WEB-INF/jsp/payment.jsp").forward(request, response);
@@ -33,9 +39,19 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("requestId"));
+        String bankName = request.getParameter("bankName");
+        Payment payment = new Payment();
         
+        payment.setId(id);
+        payment.setBankName(bankName);
+        payment.setStatus(true);
         
- 
+        if(!paymentDAO.update(payment)) {
+            request.setAttribute("error", "Error on payment");
+            request.getRequestDispatcher("/WEB-INF/jsp/payment.jsp").forward(request, response);
+        }
+        response.sendRedirect("dashboard");
     }
     
     private void viewPaymentHistory(HttpServletRequest request, HttpServletResponse response)

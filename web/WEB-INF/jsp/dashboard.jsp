@@ -1,6 +1,7 @@
 <%@page import="kitaran.bean.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
             <nav class="nav-links">
                 <ul>
                     <li><a href="dashboard" class="active">Dashboard</a></li>
-                    <li><a href="request.jsp">New Request</a></li>
+                    <li><a href="request">New Request</a></li>
                     <li class="spacer"></li>
                     <li>
                         <form action="logout" method="post">
@@ -27,21 +28,17 @@
             </nav>
         </aside>
         <main class="main-content">
-            <h2>Welcome, <span id="username-display">${user.getUsername()}</span></h2>
+            <h2>Welcome, <span id="username-display">${user.username}</span></h2>
             
             <div class="stats-row">
                 <div class="stat-card">
-                    <span class="stat-num" id="total-weight">${totalWeight != null ? totalWeight : '0'} KG</span>
+                    <span class="stat-num" id="total-weight">${totalWeight != null ? totalWeight : '0.00'} KG</span>
                     <span class="stat-label">Total Recycled Weight</span>
                 </div>
                 
                 <div class="stat-card">
                     <span class="stat-num" id="bill-amount">RM ${totalPenalty != null ? totalPenalty : '0.00'}</span>
                     <span class="stat-label">Outstanding Penalty</span>
-                    
-                    <div style="width:100%; margin-top:10px;">
-                        <button onclick="payBill()" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
-                    </div>
                 </div>
             </div>
             
@@ -50,29 +47,72 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Type</th>
-                            <th>Item</th>
-                            <th>Verified Weight</th>
-                            <th>Penalty Cost</th>
-                            <th>Status</th>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Item</th>
+                            <th class="text-center">Verified Weight</th>
+                            <th class="text-center">Penalty Cost</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody id="user-table">
                         <c:choose>
-                            <c:when test="${not empty recyclingHistory}">
-                                <c:forEach var="record" items="${recyclingHistory}">
+                            <c:when test="${not empty history}">
+                                <c:forEach var="record" items="${history}">
                                     <tr>
-                                        <td>${record.type}</td>
-                                        <td>${record.item}</td>
-                                        <td>${record.weight} kg</td>
-                                        <td>RM ${record.penalty}</td>
-                                        <td>${record.status}</td>
+                                        <td class="text-center">${record.recycleId}</td>
+                                        <td class="text-center">${record.type}</td>
+                                        <td class="text-center">${record.item}</td>
+                                        <td class="text-center">
+                                            <c:choose>
+                                                <c:when test="${record.weight > 0}">
+                                                    <fmt:formatNumber value="${record.weight}"/> KG
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="text-muted">Pending</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="text-center">
+                                            <c:choose>
+                                                <c:when test="${record.penalty > 0}">
+                                                    <span class="text-danger">RM <fmt:formatNumber value="${record.penalty}"/></span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    -
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="text-center">
+                                            <c:choose>
+                                                <c:when test="${record.status == 'pending'}">
+                                                    <span style="color: var(--warning);">Pending</span>
+                                                </c:when>
+                                                <c:when test="${record.status == 'verified'}">
+                                                    <span style="color: var(--success);">Verified</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${record.status}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td class="text-center">
+                                            <c:choose>
+                                                <c:when test="${!record.penaltyStatus}" >
+                                                    <button onclick="payBill(${record.recycleId})" class="btn btn-red" style="padding:8px; font-size:0.8rem;">Pay Now</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    NA
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted">No recycling history yet</td>
+                                    <td colspan="6" class="text-center text-muted">No recycling history yet</td>
                                 </tr>
                             </c:otherwise>
                         </c:choose>
@@ -83,13 +123,8 @@
     </div>
     
     <script>
-        function payBill() {
-            const amount = document.getElementById('bill-amount').textContent.replace('RM ', '').trim();
-            if (amount && parseFloat(amount) > 0) {
-                window.location.href = 'payment.jsp?amount=' + amount;
-            } else {
-                alert('No outstanding penalty to pay.');
-            }
+        function payBill(id) {         
+            window.location.href = 'payment?id=' + id;
         }
     </script>
 </body>

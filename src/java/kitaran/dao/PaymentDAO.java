@@ -41,7 +41,7 @@ public class PaymentDAO {
             PreparedStatement pstmt = conn.prepareStatement(query);
             
             pstmt.setString(1, payment.getBankName());
-            pstmt.setString(2, payment.getStatus());
+            pstmt.setBoolean(2, payment.getStatus());
             pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             pstmt.setInt(4, payment.getId());
             
@@ -115,7 +115,7 @@ public class PaymentDAO {
     }
     
     public double getTotalPaymentByUserId(int id) {
-        String query = "SELECT SUM(amount) as total FROM payments WHERE amount > 0 and user_id=?";
+        String query = "SELECT SUM(amount) as total FROM payments WHERE amount > 0 and not status and user_id=?";
         double total = 0.0;
 
         try {
@@ -203,7 +203,7 @@ public class PaymentDAO {
         payment.setUserId(rs.getInt("user_id"));
         payment.setAmount(rs.getDouble("amount"));
         payment.setBankName(rs.getString("bank_name"));
-        payment.setStatus(rs.getString("status"));
+        payment.setStatus(rs.getBoolean("status"));
         payment.setDate(rs.getTimestamp("paydate"));
         payment.setRef(rs.getString("reference"));
         return payment;

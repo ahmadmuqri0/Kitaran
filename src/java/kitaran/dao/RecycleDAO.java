@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import kitaran.bean.AdminDTO;
 import kitaran.bean.Recycle;
+import kitaran.bean.UserDTO;
 import kitaran.utils.DBConnection;
 
 public class RecycleDAO {
@@ -164,6 +165,47 @@ public class RecycleDAO {
         }
     }
     
+    public ArrayList<UserDTO> getUserRecyclingHistory(int userId) {
+        String query = "SELECT r.id as recycle_id, r.bin_type, r.item, r.weight, " +
+                       "r.status, COALESCE(p.amount, 0) as penalty, p.status as penaltyStatus " +
+                       "FROM recycles r " +
+                       "LEFT JOIN payments p ON r.id = p.recycle_id " +
+                       "WHERE r.user_id = ? " +
+                       "ORDER BY r.id DESC";
+
+        ArrayList<UserDTO> history = new ArrayList<>();
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                UserDTO dto = new UserDTO();
+                dto.setRecycleId(rs.getInt("recycle_id"));
+                dto.setType(rs.getString("bin_type"));
+                dto.setItem(rs.getString("item"));
+                dto.setWeight(rs.getDouble("weight"));
+                dto.setPenalty(rs.getDouble("penalty"));
+                dto.setStatus(rs.getString("status"));
+                dto.setPenaltyStatus(rs.getBoolean("penaltyStatus"));
+
+                history.add(dto);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting user recycling history: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return history;
+    }
     
     public ArrayList<AdminDTO> getAdminData(String filter) {
         StringBuilder query = new StringBuilder();

@@ -9,7 +9,7 @@ public class Payment {
     private int recycleId;
     private double amount;
     private String bankName;
-    private String status;
+    private boolean status;
     private Timestamp date;
     private String ref;
     
@@ -55,11 +55,11 @@ public class Payment {
         this.bankName = bankName;
     }
     
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
     
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
     
