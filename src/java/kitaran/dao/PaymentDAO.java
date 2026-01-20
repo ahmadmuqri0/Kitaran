@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class PaymentDAO {
     
     public boolean create(Payment payment) {
-        String query = "insert into payments (user_id, recycles_id, amount, reference) values (?, ?, ?, ?)";
+        String query = "insert into payments (user_id, recycle_id, amount, reference) values (?, ?, ?, ?)";
         
         try {
             Connection conn = DBConnection.connect();
@@ -114,6 +114,32 @@ public class PaymentDAO {
         return payment;
     }
     
+    public double getTotalPaymentByUserId(int id) {
+        String query = "SELECT SUM(amount) as total FROM payments WHERE amount > 0 and user_id=?";
+        double total = 0.0;
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total");
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting total system weight: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+    
     // Get all payments by user ID
     public ArrayList<Payment> getPaymentsByUserId(int userId) {
         String query = "select * from payments where user_id=? order by paydate DESC";
@@ -141,6 +167,8 @@ public class PaymentDAO {
         
         return payments;
     }
+    
+    
     
     // Get all payments (for admin)
     public ArrayList<Payment> getAllPayments() {

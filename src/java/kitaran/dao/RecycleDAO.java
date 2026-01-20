@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import kitaran.bean.AdminDTO;
 import kitaran.bean.Recycle;
 import kitaran.utils.DBConnection;
 
@@ -90,7 +91,7 @@ public class RecycleDAO {
         return requests;
     }
     
-    public boolean create(Recycle recycle) {
+    public boolean createRecycle(Recycle recycle) {
         String query = "insert into recycles (user_id, bin_type, item, address) values (?, ?, ?, ?)";
         
         try {
@@ -115,15 +116,15 @@ public class RecycleDAO {
         }
     }
     
-    public boolean update(Recycle recycle) {
+    public boolean updateRecycleWeight(int id, double weight) {
         String query = "update recycles set weight=? where id=?";
         
         try {
             Connection conn = DBConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(query);
             
-            pstmt.setDouble(1, recycle.getWeight());
-            pstmt.setInt(2, recycle.getId());
+            pstmt.setDouble(1, weight);
+            pstmt.setInt(2, id);
                
             int rowsAffected = pstmt.executeUpdate();
             
@@ -139,7 +140,196 @@ public class RecycleDAO {
         }
     }
     
-        private Recycle getRecycle(ResultSet rs) throws SQLException {
+    public boolean updateRecycleStatus(int id, String status) {
+        String query = "update recycles set status=? where id=?";
+        
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            
+            pstmt.setString(1, status);
+            pstmt.setInt(2, id);
+               
+            int rowsAffected = pstmt.executeUpdate();
+            
+            pstmt.close();
+            conn.close();
+            
+            return rowsAffected > 0;
+           
+        } catch(SQLException e) {
+            System.out.println("Error updating recycle: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    
+    public ArrayList<AdminDTO> getAdminData(String filter) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT r.id as recycle_id, r.user_id, u.username, r.bin_type, r.item, ")
+             .append("r.address, r.weight, r.status as recycle_status, ")
+             .append("p.id as payment_id, p.amount, p.status as payment_status, p.bank_name ")
+             .append("FROM recycles r ")
+             .append("INNER JOIN users u ON r.user_id = u.id ")
+             .append("LEFT JOIN payments p ON r.id = p.recycle_id ");
+
+        if (filter != null && !filter.equals("all")) {
+            switch (filter) {
+                case "pending":
+                    query.append("WHERE r.status = 'pending' ");
+                    break;
+                case "verified":
+                    query.append("WHERE r.status = 'verified' ");
+                    break;
+                case "penalty":
+                    query.append("WHERE p.amount > 0 AND (p.status IS NULL OR p.status = 'unpaid') ");
+                    break;
+            }
+        }
+
+        query.append("ORDER BY r.id DESC");
+
+        ArrayList<AdminDTO> results = new ArrayList<>();
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query.toString());
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                AdminDTO data = new AdminDTO();
+                data.setUserId(rs.getInt("user_id"));
+                data.setUsername(rs.getString("username"));
+                data.setRecycleId(rs.getInt("recycle_id"));
+                data.setType(rs.getString("bin_type"));
+                data.setItem(rs.getString("item"));
+                data.setAddress(rs.getString("address"));
+                data.setWeight(rs.getDouble("weight"));
+                data.setRecycleStatus(rs.getString("recycle_status"));
+
+                data.setPaymentId(rs.getInt("payment_id"));
+                data.setPenaltyAmount(rs.getDouble("amount"));
+                data.setPaymentStatus(rs.getString("payment_status"));
+                data.setBankName(rs.getString("bank_name"));
+
+                results.add(data);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting admin recycle view: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return results;
+    }
+    
+    public int getTotalRecycleCount() {
+        String query = "SELECT COUNT(*) as total FROM recycles";
+        int count = 0;
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting total recycle count: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getPendingRecycleCount() {
+        String query = "SELECT COUNT(*) as total FROM recycles WHERE status = 'pending'";
+        int count = 0;
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting pending recycle count: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public double getTotalSystemWeight() {
+        String query = "SELECT SUM(weight) as total FROM recycles WHERE weight > 0";
+        double total = 0.0;
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total");
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting total system weight: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+    
+    public double getTotalWeightByUserId(int id) {
+        String query = "SELECT SUM(weight) as total FROM recycles WHERE weight > 0 and user_id=?";
+        double total = 0.0;
+
+        try {
+            Connection conn = DBConnection.connect();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total");
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error getting total system weight: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+    
+    private Recycle getRecycle(ResultSet rs) throws SQLException {
         Recycle recycle = new Recycle();
         recycle.setId(rs.getInt("id"));
         recycle.setUserId(rs.getInt("user_id"));

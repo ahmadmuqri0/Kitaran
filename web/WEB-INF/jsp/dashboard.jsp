@@ -31,12 +31,12 @@
             
             <div class="stats-row">
                 <div class="stat-card">
-                    <span class="stat-num" id="total-weight">${totalWeight != null ? totalWeight : '0'} kg</span>
+                    <span class="stat-num" id="total-weight">${totalWeight != null ? totalWeight : '0'} KG</span>
                     <span class="stat-label">Total Recycled Weight</span>
                 </div>
                 
                 <div class="stat-card">
-                    <span class="stat-num" id="bill-amount">RM ${outstandingPenalty != null ? outstandingPenalty : '0.00'}</span>
+                    <span class="stat-num" id="bill-amount">RM ${totalPenalty != null ? totalPenalty : '0.00'}</span>
                     <span class="stat-label">Outstanding Penalty</span>
                     
                     <div style="width:100%; margin-top:10px;">

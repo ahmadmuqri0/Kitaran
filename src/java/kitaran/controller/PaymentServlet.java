@@ -2,8 +2,6 @@
 package kitaran.controller;
 
 import kitaran.dao.PaymentDAO;
-import kitaran.bean.Payment;
-import kitaran.bean.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +33,7 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         
  
     }

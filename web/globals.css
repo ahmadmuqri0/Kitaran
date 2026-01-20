@@ -902,6 +902,7 @@ textarea::placeholder {
 .text-danger { color: var(--danger); }
 .text-muted { color: var(--neutral-600); }
 .text-white { color: var(--white); }
+.text-black { color: var(--black); }
 
 .bg-primary { background-color: var(--primary); }
 .bg-accent { background-color: var(--accent); }
