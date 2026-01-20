@@ -9,6 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="${pageContext.request.contextPath}/globals.css" rel="stylesheet">
     <title>Dashboard - Kitaran</title>
+   
+    <style>
+        
+    </style>
+    
+    
 </head>
 <body>
     <div class="app-container">
