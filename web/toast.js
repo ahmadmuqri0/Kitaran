@@ -45,6 +45,14 @@ function showToast(message, type = 'info', duration = 4000) {
     messageEl.className = 'toast-message';
     messageEl.textContent = message;
     
+    const toastIcons = {
+    error: '✕',    // Or use '✕'
+    success: '✓',  // Or use '✓'
+    warning: '!',  // Or use '⚠'
+    info: 'i'      // Or use 'ℹ'
+};
+    
+    
     // Create close button
     const closeBtn = document.createElement('button');
     closeBtn.className = 'toast-close';
